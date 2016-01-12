@@ -4,23 +4,18 @@ PWD=pwd
 
 # Install software
 sudo yum groupinstall "Development Tools"
-sudo yum install -y libexif-devel libjpeg-devel gd-devel curl-devel openssl-devel libxml2-devel pecl ImageMagick-devel
 
-# Download PHP source
+# Download PhantomJS source
 cd /tmp
-rm php -rf
-wget -O - http://ro1.php.net/get/php-7.0.2.tar.gz/from/this/mirror | tar -xzp
-mv php-*.*.*/ php
+rm phantomjs -rf
+git clone https://github.com/ariya/phantomjs.git
 
-# Download imagick source
-cd /tmp/php/ext
-wget -O - https://pecl.php.net/get/imagick-3.4.0RC5.tgz | tar -xzp
-mv imagick-*.*.*/ imagick
+# Build PhantomJS
+cd phantomjs
+./build.py -c
 
-# Rebuild PHP config
-cd /tmp/php
-rm configure
-./buildconf --force
+
+exit
 
 # Configure PHP
 ./configure --prefix=/tmp/php/compiled/ \
